@@ -3,10 +3,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-const request = "https://api.hgbrasil.com/finance?format=json&key=60df7607";
-
-Future<Map> getData() async {
-  http.Response response = await http.get(request);
+Future<Map<String, dynamic>> getData() async {
+  var url = "https://api.hgbrasil.com/finance?format=json&key=60df7607";
+  var response = await http.get(url);
   return jsonDecode(response.body);
 }
 
@@ -77,7 +76,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Conversor de Moedas'),
+        title: const Text('Conversor de Moedas'),
         centerTitle: true,
         actions: <Widget>[
           IconButton(
@@ -91,10 +90,10 @@ class _HomePageState extends State<HomePage> {
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.waiting:
-              return Center(
-                child: Text(
+              return const Center(
+                child: const Text(
                   'Carregando....',
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.amber,
                     fontSize: 25,
                   ),
@@ -103,10 +102,10 @@ class _HomePageState extends State<HomePage> {
               );
             default:
               if (snapshot.hasError) {
-                return Center(
-                  child: Text(
+                return const Center(
+                  child: const Text(
                     'Houve algum erro ao carregar os dados...',
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.amber,
                       fontSize: 25,
                     ),
@@ -117,22 +116,19 @@ class _HomePageState extends State<HomePage> {
                 dolar = snapshot.data['results']['currencies']['USD']['buy'];
                 euro = snapshot.data['results']['currencies']['EUR']['buy'];
                 return SingleChildScrollView(
-                  padding: EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(20),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
-                      Icon(
+                      const Icon(
                         Icons.monetization_on,
                         size: 100,
                         color: Colors.amber,
                       ),
-                      Divider(),
                       buildTextField(
                           "Reais", "R\$", realController, _realChanges),
-                      Divider(),
                       buildTextField(
                           "Dolares", "U\$", dolarController, _dolarChanges),
-                      Divider(),
                       buildTextField(
                           "Euro", "EU\$", euroController, _euroChanges),
                     ],
@@ -146,8 +142,8 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-Widget buildTextField(String label, String prefix,
-    TextEditingController controller, Function onChange) {
+buildTextField(String label, String prefix, TextEditingController controller,
+    Function onChange) {
   return TextField(
     controller: controller,
     onChanged: onChange,
@@ -156,10 +152,10 @@ Widget buildTextField(String label, String prefix,
       labelStyle: TextStyle(
         color: Colors.amber,
       ),
-      border: OutlineInputBorder(),
+      border: const OutlineInputBorder(),
       prefixText: prefix,
     ),
-    style: TextStyle(
+    style: const TextStyle(
       color: Colors.amber,
       fontSize: 25,
     ),
